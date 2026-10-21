@@ -1,39 +1,20 @@
-"""
-FP-Sentinel v3.0
-Fabry-Perot interferometer simulation + AI predictive maintenance (simulation only).
-
-What changed vs v2.0
-  Fixes
-    * The classifier and the health score use ONLY sensor-measurable features.
-      Simulated displacement is ground truth: it is plotted, but never fed to the model.
-    * Optics: Airy transmission function (selectable), with the old two-beam model as an option.
-    * Health delta arrow fixed; RUL is now trend-based instead of an if/else heuristic.
-    * Models are cached, so moving a slider no longer retrains everything.
-  New
-    * Wear-out timeline, trend-based RUL with an uncertainty band, and validation against ground truth
-    * Isolation-Forest anomaly detector trained on healthy data only
-    * SCADA-style alarm logic with hysteresis and an acknowledge-able alarm log
-    * Multi-machine plant overview, spectrogram, ablation study, noise-robustness sweep
-    * Permutation importance, cross-validation, logistic-regression baseline
-    * Simulated OPC UA / MQTT tag payload and a downloadable HTML maintenance report
-"""
 import html
 import json
 from datetime import datetime, timezone
 
 import numpy as np
 import pandas as pd
-import plotly.express as px
-import plotly.graph_objects as go
-import streamlit as st
+import plotly.express as px # pyright: ignore[reportMissingImports]
+import plotly.graph_objects as go # pyright: ignore[reportMissingImports]
+import streamlit as st # type: ignore
 from scipy.signal import spectrogram
-from sklearn.ensemble import IsolationForest, RandomForestClassifier
-from sklearn.inspection import permutation_importance
-from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score, confusion_matrix, f1_score
-from sklearn.model_selection import StratifiedKFold, cross_val_score, train_test_split
-from sklearn.pipeline import make_pipeline
-from sklearn.preprocessing import StandardScaler
+from sklearn.ensemble import IsolationForest, RandomForestClassifier # type: ignore
+from sklearn.inspection import permutation_importance # type: ignore
+from sklearn.linear_model import LogisticRegression # type: ignore
+from sklearn.metrics import accuracy_score, confusion_matrix, f1_score # type: ignore
+from sklearn.model_selection import StratifiedKFold, cross_val_score, train_test_split # type: ignore
+from sklearn.pipeline import make_pipeline # pyright: ignore[reportMissingModuleSource]
+from sklearn.preprocessing import StandardScaler # pyright: ignore[reportMissingModuleSource]
 
 st.set_page_config(page_title="FP-Sentinel | Predictive Maintenance", page_icon="🔬", layout="wide")
 
